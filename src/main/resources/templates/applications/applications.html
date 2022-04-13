@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+<head>
+    <meta charset="utf-8"/>
+    <title>Applications</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.css" />
+    <script>
+        function rowClicked(value) {
+            window.location.href = value;
+        }
+    </script>
+</head>
+<body>
+<div layout:fragment="content">
+    <table class="table table-striped">
+        <thead class="thead-dark">
+        <tr>
+            <th>Email</th>
+            <th>Application Type</th>
+            <th>Time</th>
+            <th>Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="applicationDto : ${applications}" class="table-warning" style="cursor: pointer" th:if="${applicationDto.getApplicationStatus().name().equals('IN_PROGRESS')}"
+            th:some-field="${domain + '/applications/' + applicationDto.getId()}" onclick="rowClicked(this.getAttribute('some-field'))">
+            <td th:text="${applicationDto.getUser().getEmail()}"></td>
+            <td th:if="${applicationDto.getApplicationType().equals('APPLICATION_PASS_EXAM')}">Admission to the exam</td>
+            <td th:if="${applicationDto.getApplicationType().equals('APPLICATION_HEALTH')}">Health</td>
+            <td th:if="${applicationDto.getApplicationType().equals('APPLICATION_OTHER')}">Other</td>
+            <td th:text="${applicationDto.getApplicationTime()}"></td>
+            <td th:text="${(applicationDto.getApplicationStatus().name().equals('IN_PROGRESS') ? 'IN PROGESS' : applicationDto.getApplicationStatus())}"></td>
+        </tr>
+        <tr th:each="applicationDto : ${applications}" class="table-success" style="cursor: pointer" th:if="${applicationDto.getApplicationStatus().name().equals('ACCEPTED')}"
+            th:some-field="${domain + '/applications/' + applicationDto.getId()}" onclick="rowClicked(this.getAttribute('some-field'))">
+            <td th:text="${applicationDto.getUser().getEmail()}"></td>
+            <td th:if="${applicationDto.getApplicationType().equals('APPLICATION_PASS_EXAM')}">Admission to the exam</td>
+            <td th:if="${applicationDto.getApplicationType().equals('APPLICATION_HEALTH')}">Health</td>
+            <td th:if="${applicationDto.getApplicationType().equals('APPLICATION_OTHER')}">Other</td>
+            <td th:text="${applicationDto.getApplicationTime()}"></td>
+            <td th:text="${(applicationDto.getApplicationStatus().name().equals('IN_PROGRESS') ? 'IN PROGESS' : applicationDto.getApplicationStatus())}"></td>
+        </tr>
+        <tr th:each="applicationDto : ${applications}" class="table-danger" style="cursor: pointer" th:if="${applicationDto.getApplicationStatus().name().equals('REJECTED')}"
+            th:some-field="${domain + '/applications/' + applicationDto.getId()}" onclick="rowClicked(this.getAttribute('some-field'))">
+            <td th:text="${applicationDto.getUser().getEmail()}"></td>
+            <td th:if="${applicationDto.getApplicationType().equals('APPLICATION_PASS_EXAM')}">Admission to the exam</td>
+            <td th:if="${applicationDto.getApplicationType().equals('APPLICATION_HEALTH')}">Health</td>
+            <td th:if="${applicationDto.getApplicationType().equals('APPLICATION_OTHER')}">Other</td>
+            <td th:text="${applicationDto.getApplicationTime()}"></td>
+            <td th:text="${(applicationDto.getApplicationStatus().name().equals('IN_PROGRESS') ? 'IN PROGESS' : applicationDto.getApplicationStatus())}"></td>
+        </tr>
+        <tr th:if="${applications == null}">
+            <td colspan="3">No Applications!</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+
+
+</body>
+</html>

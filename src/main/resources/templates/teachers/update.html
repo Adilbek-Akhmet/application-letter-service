@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+<head>
+    <meta charset="utf-8"/>
+    <title>Sign up</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.css" />
+</head>
+<body>
+<div layout:fragment="content">
+    <h1>Change Password</h1>
+    <form th:action="@{/teachers/update/{id}(id=${changePasswordRequest.getId()})}" th:method="post" th:object="${changePasswordRequest}">
+        <div class="form-group">
+            <label for="email">Email address</label>
+            <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email" th:field="*{email}" readonly>
+            <div th:if="${#fields.hasErrors('email')}" class="alert alert-danger" role="alert">
+                <p th:each="error : ${#fields.errors('email')}" th:text="${error}">Validation error</p>
+            </div>
+        </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" id="password" placeholder="Enter password" th:field="*{newPassword}" required>
+                    <div th:if="${#fields.hasErrors('newPassword')}" class="alert alert-danger" role="alert">
+                        <p th:each="error : ${#fields.errors('newPassword')}" th:text="${error}">Validation error</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="retypePassword">Retype Password</label>
+                    <input type="password" class="form-control" id="retypePassword" placeholder="Confirm password" th:field="*{retypeNewPassword}" required>
+                    <div th:if="${#fields.hasErrors('retypeNewPassword')}" class="alert alert-danger" role="alert">
+                        <p th:each="error : ${#fields.errors('retypeNewPassword')}" th:text="${error}">Validation error</p>
+                    </div>
+                </div>
+        <button type="submit" class="btn btn-dark">Change Password</button>
+
+    </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+<head>
+    <meta charset="utf-8"/>
+    <title>Disk</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.css" />
+</head>
+<body>
+<div layout:fragment="content">
+    <!--    <h1>Secure Disk</h1>-->
+    <div class="mb-1">
+        <a class="btn btn-dark" th:href="@{/teachers/create}">Create New Teacher</a>
+    </div>
+    <table class="table table-striped">
+        <thead class="thead-dark">
+        <tr>
+            <th>Email</th>
+            <th></th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="hhh" th:each="teacher : ${teachers}">
+            <td th:text="${teacher.getEmail()}"></td>
+            <td>
+                <a class="btn btn-dark" th:href="@{/teachers/update/{id}(id=${teacher.getId()})}">
+                    Change Password
+                </a>
+            </td>
+            <td>
+                <a class="btn btn-dark" th:href="@{/teachers/delete/{id}(id=${teacher.getId()})}">
+                    Delete
+                </a>
+            </td>
+        </tr>
+        <tr th:if="${teachers.isEmpty()}">
+            <td colspan="3">No Teachers!</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

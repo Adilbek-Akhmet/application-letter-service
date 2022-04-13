@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">Computer Engineering</title>
+
+    <!-- Bootstrap core CSS -->
+    <link th:href="@{/webjars/bootstrap/css/bootstrap.css}" href="../static/css/bootstrap.css" rel="stylesheet"/>
+    <style type="text/css">
+        body {
+            padding-top: 5rem;
+        }
+        /* Sticky footer styles
+-------------------------------------------------- */
+        html {
+            position: relative;
+            min-height: 100%;
+        }
+
+
+        /* Custom page CSS
+        -------------------------------------------------- */
+        /* Not required for template or sticky footer method. */
+
+        .container {
+            width: auto;
+            max-width: 680px;
+            padding: 0 15px;
+        }
+    </style>
+</head>
+
+
+<body>
+
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <a class="navbar-brand" href="#" th:href="@{/applications}">Computer Engineering</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        <ul class="navbar-nav mr-auto">
+            <li sec:authorize="hasAnyAuthority('ADMIN', 'TEACHER')" class="nav-item active">
+                <a class="nav-link" href="#" th:href="@{/applications}">Applications <span class="sr-only">(current)</span></a>
+            </li>
+            <li sec:authorize="hasAnyAuthority('ADMIN')" class="nav-item active">
+                <a class="nav-link" href="#" th:href="@{/teachers}">Teachers <span class="sr-only">(current)</span></a>
+            </li>
+            <li sec:authorize="hasAnyAuthority('ADMIN')" class="nav-item active">
+                <a class="nav-link" href="#" th:href="@{/students}">Students <span class="sr-only">(current)</span></a>
+            </li>
+        </ul>
+        <div sec:authorize="isAuthenticated()" class="navbar-text px-2" sec:authentication="name"></div>
+        <form sec:authorize="isAuthenticated()" class="form-inline my-2 my-lg-0" th:action="@{/logout}" th:method="post">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Log out</button>
+        </form>
+    </div>
+</nav>
+
+<div class="container" th:fragment="exception">
+    <div id="myAlert" class="error mt-3" th:if="${exception != null}">
+        <div class="alert alert-danger alert-dismissible fade show text-center">
+            <strong>Error!</strong> <span th:text="${exception}"></span>
+            <button type="button" id="close" class="close" data-dismiss="alert">&times;</button>
+        </div>
+    </div>
+</div>
+
+<div class="container" th:fragment="success">
+    <div id="myAlert" class="error mt-3" th:if="${success != null}">
+        <div class="alert alert-success alert-dismissible fade show text-center">
+            <strong>Success!</strong> <span th:text="${success}"></span>
+            <button type="button" id="close" class="close" data-dismiss="alert">&times;</button>
+        </div>
+    </div>
+</div>
+
+<main role="main">
+    <div class="container" layout:fragment="content">
+
+    </div> <!-- /container -->
+</main>
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"  th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" th:src="@{/webjars/bootstrap/js/bootstrap.js}"></script>
+</body>
+</html>
