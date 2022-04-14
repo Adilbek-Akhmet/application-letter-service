@@ -48,19 +48,19 @@ public class ConfirmationFileHandler implements InputMessageHandler {
         }
 
         String filePath = "";
-        if (url !=null) {
-            try (BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()))) {
-                String result = in.readLine();
-                JSONObject jsonResult = new JSONObject(result);
-                JSONObject path = jsonResult.getJSONObject("result");
-                filePath = path.getString("file_path");
-                application.setConfirmationFilePath(filePath);
-            } catch (IOException | JSONException exception) {
-                exception.printStackTrace();
-            }
-        }
+//        if (url !=null) {
+//            try (BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()))) {
+//                String result = in.readLine();
+//                JSONObject jsonResult = new JSONObject(result);
+//                JSONObject path = jsonResult.getJSONObject("result");
+//                filePath = path.getString("file_path");
+//                application.setConfirmationFilePath(filePath);
+//            } catch (IOException | JSONException exception) {
+//                exception.printStackTrace();
+//            }
+//        }
 
-        if (StringUtils.isNotBlank(fileId)) {
+        if (StringUtils.isNotBlank(fileId) && !filePath.isEmpty()) {
             application.setConfirmationFilePath(filePath);
         }
 
