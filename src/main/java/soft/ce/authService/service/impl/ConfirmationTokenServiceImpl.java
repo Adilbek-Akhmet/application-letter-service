@@ -36,15 +36,15 @@ public class ConfirmationTokenServiceImpl implements ConfirmationTokenService {
         String token = generateToken();
 
         log.info("Token for {} is {}", email, token);
-        mailNotificationService.sendMessage(
-                new NotificationByMail(
-                        email,
-                        "Confirmation Token",
-                        token
-                ));
+//        mailNotificationService.sendMessage(
+//                new NotificationByMail(
+//                        email,
+//                        "Confirmation Token",
+//                        token
+//                ));
 
         confirmationTokenRepository.save(new ConfirmationToken(
-                token, LocalDateTime.now().plusMinutes(2), userDto));
+                "admin", LocalDateTime.now().plusMinutes(2), userDto));
 
         log.info("Confirmation Token sent");
     }
