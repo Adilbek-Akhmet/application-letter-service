@@ -13,6 +13,6 @@ public interface ConfirmationTokenService {
 
     ConfirmationToken findByToken(String confirmationLinkToken);
 
-    void deleteByUser(UserDto userDto);
+//    void deleteByUser(UserDto userDto);
 
 }

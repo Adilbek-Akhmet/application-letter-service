@@ -29,8 +29,8 @@ public class ConfirmationTokenServiceImpl implements ConfirmationTokenService {
     public void sendToken(String email) {
         UserDto userDto = userService.findByEmail(email);
 
-        if (confirmationTokenRepository.existsByUser(userDto)) {
-            confirmationTokenRepository.deleteByUser(userDto);
+        if (confirmationTokenRepository.findByUser_Email(userDto.getEmail()).isPresent()) {
+            confirmationTokenRepository.deleteByUser_Email(userDto.getEmail());
         }
 
         String token = generateToken();
@@ -68,8 +68,8 @@ public class ConfirmationTokenServiceImpl implements ConfirmationTokenService {
                 .orElseThrow(() -> new IllegalArgumentException("Invalid token"));
     }
 
-    @Override
-    public void deleteByUser(UserDto userDto) {
-        confirmationTokenRepository.deleteByUser(userDto);
-    }
+//    @Override
+//    public void deleteByUser(UserDto userDto) {
+//        confirmationTokenRepository.deleteByUser(userDto);
+//    }
 }

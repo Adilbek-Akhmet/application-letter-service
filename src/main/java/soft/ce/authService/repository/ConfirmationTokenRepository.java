@@ -14,5 +14,5 @@ public interface ConfirmationTokenRepository extends MongoRepository<Confirmatio
 
     boolean existsByUser(UserDto userDto);
 
-    void deleteByUser(UserDto userDto);
+    void deleteByUser_Email(String email);
 }
