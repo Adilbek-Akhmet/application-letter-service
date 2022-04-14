@@ -35,6 +35,7 @@ public class ConfirmationTokenServiceImpl implements ConfirmationTokenService {
 
         String token = generateToken();
 
+        log.info("Token for {} is {}", email, token);
         mailNotificationService.sendMessage(
                 new NotificationByMail(
                         email,
