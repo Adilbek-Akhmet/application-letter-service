@@ -22,13 +22,13 @@ public class StudentController {
     @GetMapping
     public String findAll(Model model) {
         model.addAttribute("students", userService.findAllByRole_Student());
-        return "/students/students";
+        return "students/students";
     }
 
     @GetMapping("/create")
     public String create(Model model) {
         model.addAttribute("student", new UserDto());
-        return "/students/create";
+        return "students/create";
     }
 
     @PostMapping("/create")

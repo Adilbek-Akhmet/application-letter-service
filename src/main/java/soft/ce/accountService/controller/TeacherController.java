@@ -25,13 +25,13 @@ public class TeacherController {
     @GetMapping
     public String findAll(Model model) {
         model.addAttribute("teachers", userService.findAllByRole_Teacher());
-        return "/teachers/teachers";
+        return "teachers/teachers";
     }
 
     @GetMapping("/create")
     public String create(Model model) {
         model.addAttribute("teacher", new UserDto());
-        return "/teachers/create";
+        return "teachers/create";
     }
 
     @PostMapping("/create")
@@ -57,7 +57,7 @@ public class TeacherController {
                 .email(userDto.getEmail())
                 .build();
         model.addAttribute("changePasswordRequest", changePasswordRequest);
-        return "/teachers/update";
+        return "teachers/update";
     }
 
     @PostMapping("/update/{id}")
