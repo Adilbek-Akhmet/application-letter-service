@@ -51,7 +51,7 @@ public class ApplicationHandler implements InputMessageHandler {
                 .applicationType(userDataCache.getUserCurrentBotState(userId).name())
                 .applicationStatus(ApplicationStatus.IN_PROGRESS)
                 .user(user)
-                .createdAt(LocalDateTime.now())
+                .createdAt(LocalDateTime.now().plusHours(6))
                 .build();
 
         userDataCache.setApplication(userId, applicationDto);
