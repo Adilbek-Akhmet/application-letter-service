@@ -5,9 +5,17 @@ import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+import org.telegram.telegrambots.meta.api.methods.GetFile;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.ApiResponse;
+import org.telegram.telegrambots.meta.api.objects.File;
 import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import soft.ce.applicationService.dto.ApplicationDto;
 import soft.ce.applicationService.service.ApplicationService;
 import soft.ce.telegram.cache.DataCache;
@@ -21,6 +29,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.MessageFormat;
+import java.util.Objects;
 
 @Log4j2
 @Service
@@ -47,7 +57,8 @@ public class ConfirmationFileHandler implements InputMessageHandler {
             e.printStackTrace();
         }
 
-        String filePath = "";
+        String filePath = getDocumentTelegramFileUrl(fileId);
+        log.info("FilePath: {}", filePath);
 //        if (url !=null) {
 //            try (BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()))) {
 //                String result = in.readLine();
@@ -76,5 +87,21 @@ public class ConfirmationFileHandler implements InputMessageHandler {
     @Override
     public BotState getHandlerName() {
         return BotState.CONFIRMATION_FILE;
+    }
+
+    private String getDocumentTelegramFileUrl(String fileId) {
+        RestTemplate restTemplate = new RestTemplate();
+        try {
+            ResponseEntity<ApiResponse<File>> response = restTemplate.exchange(
+                    MessageFormat.format("{0}bot{1}/getFile?file_id={2}", "https://api.telegram.org/", botRegisterConfig.getBotToken(), fileId),
+                    HttpMethod.GET,
+                    null,
+                    new ParameterizedTypeReference<ApiResponse<File>>() {
+                    }
+            );
+            return Objects.requireNonNull(response.getBody()).getResult().getFileUrl(this.botRegisterConfig.getBotToken());
+        } catch (Exception e) {
+            throw new IllegalStateException("Telegram file exception");
+        }
     }
 }
