@@ -35,7 +35,7 @@ public class ApplicationController {
     public String findById(Model model, @PathVariable String id) {
         ApplicationDto applicationDto = applicationService.findById(id);
         model.addAttribute("applicationDto", applicationDto);
-        model.addAttribute("downloadUrl", "https://api.telegram.org/file/bot" + botRegisterConfig.getBotToken() + "/" + applicationDto.getConfirmationFilePath());
+        model.addAttribute(applicationDto.getConfirmationFilePath());
         return "applications/application";
     }
 
