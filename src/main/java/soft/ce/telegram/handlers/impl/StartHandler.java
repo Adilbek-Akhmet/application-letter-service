@@ -1,6 +1,7 @@
 package soft.ce.telegram.handlers.impl;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -15,6 +16,7 @@ import soft.ce.telegram.services.ReplyMessageService;
 import java.util.ArrayList;
 import java.util.List;
 
+@Log4j2
 @Service
 @RequiredArgsConstructor
 public class StartHandler implements InputMessageHandler {
@@ -36,6 +38,7 @@ public class StartHandler implements InputMessageHandler {
         String userAnswer = message.getText();
         Long userId = message.getFrom().getId();
         Long chatId = message.getChatId();
+        log.info("START SEND MESSAGE");
         userDataCache.setUserCurrentBotState(userId, BotState.RECORD_USERNAME);
         return replyMessageService.getReplyMessage(message.getChatId(), "reply.userName");
     }
