@@ -26,7 +26,7 @@ public class MessageHandlerServiceImpl implements MessageHandlerService {
 
     private InputMessageHandler findMessageHandler(BotState currentState) {
         if (isProcessAuthorizationState(currentState)) {
-            return messageHandlerMap.get(AUTHORIZATION);
+            return messageHandlerMap.get(USER_INFO);
         }
 
         if (isProcessApplicationState(currentState)) {
@@ -48,7 +48,7 @@ public class MessageHandlerServiceImpl implements MessageHandlerService {
 
     private boolean isProcessAuthorizationState(BotState currentState) {
         return switch (currentState) {
-            case AUTHORIZED, CONFIRM_EMAIL, WRITE_EMAIL, AUTHORIZATION -> true;
+            case USERNAME, GROUP_NAME -> true;
             default -> false;
         };
     }

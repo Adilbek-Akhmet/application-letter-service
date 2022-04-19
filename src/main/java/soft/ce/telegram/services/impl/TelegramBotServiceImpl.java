@@ -56,7 +56,7 @@ public class TelegramBotServiceImpl implements TelegramBotService {
         SendMessage replyMessage;
 
         if ("/start".equals(inputMessage)) {
-            botState = BotState.START;
+            botState = BotState.USERNAME;
         } else {
             botState = userDataCache.getUserCurrentBotState(userId);
         }
@@ -70,21 +70,15 @@ public class TelegramBotServiceImpl implements TelegramBotService {
         Long chatId = callbackQuery.getMessage().getChatId();
         BotApiMethod<?> callBackAnswer = null;
 
-        if (userDataCache.getUser(userId).getEmail() == null &&
-                !callbackQuery.getData().equals(BotState.AUTHORIZATION.name()) &&
-                !callbackQuery.getData().equals(BotState.WRITE_EMAIL.name())
-        ) {
+        if (userDataCache.getUser(userId).getFullName() == null) {
             Message message = new Message();
             Chat chat = new Chat();
             chat.setId(chatId);
             message.setChat(chat);
-            return messageHandlerService.processInputMessage(BotState.START, message) ;
+            return messageHandlerService.processInputMessage(BotState.USERNAME, message) ;
         }
 
-        if (callbackQuery.getData().equals(BotState.AUTHORIZATION.name())) {
-            userDataCache.setUserCurrentBotState(userId, BotState.WRITE_EMAIL);
-            callBackAnswer = replyMessageService.getReplyMessage(chatId, "reply.askEmail");
-        } else if (callbackQuery.getData().equals(BotState.APPLICATION_HEALTH.name())){
+        if (callbackQuery.getData().equals(BotState.APPLICATION_HEALTH.name())){
             userDataCache.setUserCurrentBotState(userId, BotState.APPLICATION_HEALTH);
             callBackAnswer = replyMessageService.getReplyMessage(chatId, "reply.writeApplication");
         } else if(callbackQuery.getData().equals(BotState.APPLICATION_PASS_EXAM.name())) {

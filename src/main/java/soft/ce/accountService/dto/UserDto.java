@@ -14,6 +14,8 @@ import java.time.LocalDate;
 public class UserDto {
     private String id;
     private String email;
+    private String fullName;
+    private String groupName;
     private String password;
     private LocalDate createdAt;
     private Role role;
