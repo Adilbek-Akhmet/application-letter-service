@@ -22,7 +22,7 @@ public class UserDataCacheImpl implements DataCache {
     public BotState getUserCurrentBotState(Long userTelegramId) {
         BotState botState = usersBotState.get(userTelegramId);
         if (botState == null || botState.equals(BotState.FINISH)) {
-            botState = BotState.USERNAME;
+            botState = BotState.START;
         }
         return botState;
     }

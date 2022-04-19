@@ -31,20 +31,6 @@ public class StartHandler implements InputMessageHandler {
     }
 
     private SendMessage processUserInput(Message message) {
-        Long chatId = message.getChatId();
-        List<InlineKeyboardButton> buttons = new ArrayList<>();
-        buttons.add(
-                InlineKeyboardButton.builder()
-                        .text("Авторизация")
-                        .callbackData(BotState.AUTHORIZATION.name())
-                        .build()
-        );
-        SendMessage replyMessage = replyMessageService.getReplyMessage(chatId, "reply.start");
-        replyMessage.setReplyMarkup(
-                InlineKeyboardMarkup.builder()
-                        .keyboardRow(buttons)
-                        .build()
-        );
-        return replyMessage;
+        return replyMessageService.getReplyMessage(message.getChatId(), "reply.userName");
     }
 }

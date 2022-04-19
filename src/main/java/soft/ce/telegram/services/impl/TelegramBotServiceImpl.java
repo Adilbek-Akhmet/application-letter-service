@@ -5,20 +5,15 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.objects.*;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
+import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
+import org.telegram.telegrambots.meta.api.objects.Chat;
+import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.api.objects.Update;
 import soft.ce.telegram.cache.DataCache;
 import soft.ce.telegram.dto.BotState;
-import soft.ce.telegram.dto.LanguageTypes;
 import soft.ce.telegram.services.MessageHandlerService;
 import soft.ce.telegram.services.ReplyMessageService;
 import soft.ce.telegram.services.TelegramBotService;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static soft.ce.telegram.dto.BotState.USERNAME;
 
 @Log4j2
 @Service
@@ -58,7 +53,7 @@ public class TelegramBotServiceImpl implements TelegramBotService {
         SendMessage replyMessage;
 
         if ("/start".equals(inputMessage)) {
-            botState = BotState.USERNAME;
+            botState = BotState.START;
         } else {
             botState = userDataCache.getUserCurrentBotState(userId);
         }
@@ -78,7 +73,7 @@ public class TelegramBotServiceImpl implements TelegramBotService {
             Chat chat = new Chat();
             chat.setId(chatId);
             message.setChat(chat);
-            return messageHandlerService.processInputMessage(BotState.USERNAME, message) ;
+            return messageHandlerService.processInputMessage(BotState.START, message) ;
         }
 
         if (callbackQuery.getData().equals(BotState.APPLICATION_HEALTH.name())){

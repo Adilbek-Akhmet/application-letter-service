@@ -48,8 +48,9 @@ public class AuthorizationHandler implements InputMessageHandler {
 
         if (botState.equals(BotState.RECORD_USERNAME)) {
             userDataCache.setUserCurrentBotState(userId, BotState.GROUP_NAME);
-            return replyMessageService.getReplyMessage(message.getChatId(), "reply.userName");
-        } else if (botState.equals(BotState.GROUP_NAME)) {
+        }
+
+        if (botState.equals(BotState.GROUP_NAME)) {
             userDataCache.setUserCurrentBotState(userId, BotState.RECORD_GROUP_NAME);
             return replyMessageService.getReplyMessage(message.getChatId(), "reply.groupName");
         } else if (botState.equals(BotState.RECORD_GROUP_NAME)) {

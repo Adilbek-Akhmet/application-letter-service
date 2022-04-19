@@ -6,7 +6,6 @@ public enum BotState {
 
     AUTHORIZATION,
     USER_INFO,
-    USERNAME,
     RECORD_USERNAME,
     GROUP_NAME,
     RECORD_GROUP_NAME,
