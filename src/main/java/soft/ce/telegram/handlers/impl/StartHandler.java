@@ -6,6 +6,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
+import soft.ce.telegram.cache.DataCache;
 import soft.ce.telegram.dto.BotState;
 import soft.ce.telegram.handlers.InputMessageHandler;
 import soft.ce.telegram.keyboards.Buttons;
@@ -19,6 +20,7 @@ import java.util.List;
 public class StartHandler implements InputMessageHandler {
 
     private final ReplyMessageService replyMessageService;
+    private final DataCache userDataCache;
 
     @Override
     public SendMessage handle(Message message) {
@@ -31,6 +33,10 @@ public class StartHandler implements InputMessageHandler {
     }
 
     private SendMessage processUserInput(Message message) {
+        String userAnswer = message.getText();
+        Long userId = message.getFrom().getId();
+        Long chatId = message.getChatId();
+        userDataCache.setUserCurrentBotState(userId, BotState.RECORD_USERNAME);
         return replyMessageService.getReplyMessage(message.getChatId(), "reply.userName");
     }
 }
