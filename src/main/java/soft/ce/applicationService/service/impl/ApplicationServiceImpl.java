@@ -10,8 +10,6 @@ import soft.ce.applicationService.utility.ApplicationMapper;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import static java.util.stream.Collectors.toList;
-
 @Service
 @RequiredArgsConstructor
 public class ApplicationServiceImpl implements ApplicationService {
@@ -22,7 +20,7 @@ public class ApplicationServiceImpl implements ApplicationService {
     public List<ApplicationDto> findAll() {
         return applicationRepository.findAll().stream()
                 .map(ApplicationMapper::toDto)
-                .collect(toList());
+                .toList();
     }
 
     @Override
@@ -35,7 +33,7 @@ public class ApplicationServiceImpl implements ApplicationService {
     public List<ApplicationDto> findAllByApplicationType(String type) {
         return applicationRepository.findAllByApplicationType(type).stream()
                 .map(ApplicationMapper::toDto)
-                .collect(toList());
+                .toList();
     }
 
     @Override
