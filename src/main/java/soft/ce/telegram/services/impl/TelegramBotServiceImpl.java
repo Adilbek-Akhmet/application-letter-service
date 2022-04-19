@@ -18,6 +18,8 @@ import soft.ce.telegram.services.TelegramBotService;
 import java.util.ArrayList;
 import java.util.List;
 
+import static soft.ce.telegram.dto.BotState.USERNAME;
+
 @Log4j2
 @Service
 @RequiredArgsConstructor
@@ -59,6 +61,9 @@ public class TelegramBotServiceImpl implements TelegramBotService {
             botState = BotState.USERNAME;
         } else {
             botState = userDataCache.getUserCurrentBotState(userId);
+        }
+        if (botState == null) {
+            botState = BotState.USERNAME;
         }
         userDataCache.setUserCurrentBotState(userId, botState);
         replyMessage = messageHandlerService.processInputMessage(botState, message);
