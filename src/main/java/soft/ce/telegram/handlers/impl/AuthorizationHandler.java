@@ -47,6 +47,7 @@ public class AuthorizationHandler implements InputMessageHandler {
         SendMessage replyToUser = null;
 
         if (botState.equals(BotState.RECORD_USERNAME)) {
+            user.setFullName(userAnswer);
             userDataCache.setUserCurrentBotState(userId, BotState.GROUP_NAME);
         }
 
