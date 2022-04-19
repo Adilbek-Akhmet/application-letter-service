@@ -1,6 +1,10 @@
 package soft.ce.telegram.dto;
 
 public enum BotState {
+    PICK_LANGUAGE,
+    START,
+
+    AUTHORIZATION,
     USER_INFO,
     USERNAME,
     RECORD_USERNAME,
