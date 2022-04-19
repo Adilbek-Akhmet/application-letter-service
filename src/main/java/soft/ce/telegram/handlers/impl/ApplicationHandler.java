@@ -44,13 +44,13 @@ public class ApplicationHandler implements InputMessageHandler {
 
         UserDto userDto = userDataCache.getUser(userId);
 
-        UserDto user = userService.findByEmail(userDto.getEmail());
+//        UserDto user = userService.findByEmail(userDto.getEmail());
 
         ApplicationDto applicationDto = ApplicationDto.builder()
                 .applicationText(userAnswer)
                 .applicationType(userDataCache.getUserCurrentBotState(userId).name())
                 .applicationStatus(ApplicationStatus.IN_PROGRESS)
-                .user(user)
+                .user(userDto)
                 .createdAt(LocalDateTime.now().plusHours(6))
                 .build();
 
