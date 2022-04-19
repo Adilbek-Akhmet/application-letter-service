@@ -22,9 +22,6 @@ public class UserInfoHandler implements InputMessageHandler {
 
     @Override
     public SendMessage handle(Message message) {
-        if (userDataCache.getUserCurrentBotState(message.getFrom().getId()).equals(BotState.USER_INFO)) {
-            userDataCache.setUserCurrentBotState(message.getFrom().getId(), BotState.USERNAME);
-        }
         return processUserInput(message);
     }
 

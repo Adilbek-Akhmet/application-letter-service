@@ -48,7 +48,7 @@ public class MessageHandlerServiceImpl implements MessageHandlerService {
 
     private boolean isProcessAuthorizationState(BotState currentState) {
         return switch (currentState) {
-            case GROUP_NAME -> true;
+            case USERNAME, GROUP_NAME -> true;
             default -> false;
         };
     }
