@@ -21,7 +21,7 @@ public class ApplicationServiceImpl implements ApplicationService {
     public List<ApplicationDto> findAll() {
         return applicationRepository.findAll().stream()
                 .map(ApplicationMapper::toDto)
-                .sorted(Comparator.comparing(ApplicationDto::getCreatedAt).reversed())
+                .sorted(Comparator.comparing(ApplicationDto::getApplicationTime).reversed())
                 .toList();
     }
 
