@@ -30,9 +30,13 @@ public class TelegramBotServiceImpl implements TelegramBotService {
 
         if (update.hasCallbackQuery()) {
             CallbackQuery callbackQuery = update.getCallbackQuery();
+            Long userId = callbackQuery.getFrom().getId();
+            Long chatId = callbackQuery.getMessage().getChatId();
+            String data = callbackQuery.getData();
             log.info("New callbackQuery from User: {}, userId: {}, with data: {}", update.getCallbackQuery().getFrom().getUserName(),
-                    callbackQuery.getFrom().getId(), update.getCallbackQuery().getData());
-            return processCallbackQuery(callbackQuery);
+                    userId, update.getCallbackQuery().getData());
+
+            return processCallbackQuery(userId, chatId, data);
         }
 
         if (update.hasMessage()) {
@@ -63,9 +67,7 @@ public class TelegramBotServiceImpl implements TelegramBotService {
         return replyMessage;
     }
 
-    private BotApiMethod<?> processCallbackQuery(CallbackQuery callbackQuery) {
-        Long userId = callbackQuery.getFrom().getId();
-        Long chatId = callbackQuery.getMessage().getChatId();
+    private BotApiMethod<?> processCallbackQuery(Long userId, Long chatId, String data) {
         BotApiMethod<?> callBackAnswer = null;
 
         if (userDataCache.getUser(userId).getFullName() == null) {
@@ -76,13 +78,13 @@ public class TelegramBotServiceImpl implements TelegramBotService {
             return messageHandlerService.processInputMessage(BotState.START, message) ;
         }
 
-        if (callbackQuery.getData().equals(BotState.APPLICATION_HEALTH.name())){
+        if (data.equals(BotState.APPLICATION_HEALTH.name())){
             userDataCache.setUserCurrentBotState(userId, BotState.APPLICATION_HEALTH);
             callBackAnswer = replyMessageService.getReplyMessage(chatId, "reply.writeApplication");
-        } else if(callbackQuery.getData().equals(BotState.APPLICATION_PASS_EXAM.name())) {
+        } else if(data.equals(BotState.APPLICATION_PASS_EXAM.name())) {
             userDataCache.setUserCurrentBotState(userId, BotState.APPLICATION_PASS_EXAM);
             callBackAnswer = replyMessageService.getReplyMessage(chatId, "reply.writeApplication");
-        } else if(callbackQuery.getData().equals(BotState.APPLICATION_OTHER.name())) {
+        } else if(data.equals(BotState.APPLICATION_OTHER.name())) {
             userDataCache.setUserCurrentBotState(userId, BotState.APPLICATION_OTHER);
             callBackAnswer = replyMessageService.getReplyMessage(chatId, "reply.writeApplication");
         }
