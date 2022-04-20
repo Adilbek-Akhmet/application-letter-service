@@ -25,7 +25,6 @@ public class ApplicationHandler implements InputMessageHandler {
 
     private final ReplyMessageService replyMessageService;
     private final DataCache userDataCache;
-    private final UserService userService;
 
     @Override
     public SendMessage handle(Message message) {
