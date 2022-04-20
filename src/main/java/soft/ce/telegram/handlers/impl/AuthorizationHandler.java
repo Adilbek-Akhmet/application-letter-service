@@ -1,6 +1,7 @@
 package soft.ce.telegram.handlers.impl;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -14,6 +15,7 @@ import soft.ce.telegram.handlers.InputMessageHandler;
 import soft.ce.telegram.keyboards.Buttons;
 import soft.ce.telegram.services.ReplyMessageService;
 
+@Log4j2
 @Service
 @RequiredArgsConstructor
 public class AuthorizationHandler implements InputMessageHandler {
@@ -48,6 +50,7 @@ public class AuthorizationHandler implements InputMessageHandler {
 
         if (botState.equals(BotState.RECORD_USERNAME)) {
             user.setFullName(userAnswer);
+            log.info("RECORDED fullName");
             userDataCache.setUserCurrentBotState(userId, BotState.GROUP_NAME);
         }
 
