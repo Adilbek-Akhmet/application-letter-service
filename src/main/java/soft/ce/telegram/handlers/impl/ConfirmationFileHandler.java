@@ -39,6 +39,9 @@ public class ConfirmationFileHandler implements InputMessageHandler {
     public SendMessage handle(Message message) {
         Long userId = message.getFrom().getId();
         Long chatId = message.getChatId();
+        if (!message.hasDocument()) {
+            return replyMessageService.getReplyMessage(chatId, "reply.file_not");
+        }
         String fileId = message.getDocument().getFileId();
 
         ApplicationDto application = userDataCache.getApplication(userId);
