@@ -54,7 +54,7 @@ public class TelegramBotServiceImpl implements TelegramBotService {
         BotState botState;
         SendMessage replyMessage;
 
-        if ("/start".equals(inputMessage)) {
+        if ("/start".equals(inputMessage) || "start".equals(inputMessage)) {
             botState = BotState.START;
         } else {
             botState = userDataCache.getUserCurrentBotState(userId);
