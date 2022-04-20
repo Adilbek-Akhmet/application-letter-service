@@ -9,6 +9,7 @@ import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Chat;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import soft.ce.accountService.dto.UserDto;
 import soft.ce.telegram.cache.DataCache;
 import soft.ce.telegram.dto.BotState;
 import soft.ce.telegram.services.MessageHandlerService;
@@ -71,12 +72,15 @@ public class TelegramBotServiceImpl implements TelegramBotService {
     private BotApiMethod<?> processCallbackQuery(Long userId, Long chatId, String data) {
         BotApiMethod<?> callBackAnswer = null;
 
-        if (userDataCache.getUser(userId).getFullName() == null) {
-            Message message = new Message();
-            Chat chat = new Chat();
-            chat.setId(chatId);
-            message.setChat(chat);
-            return messageHandlerService.processInputMessage(BotState.START, message) ;
+        UserDto user = userDataCache.getUser(userId);
+        if (user != null) {
+            if (user.getFullName() == null) {
+                Message message = new Message();
+                Chat chat = new Chat();
+                chat.setId(chatId);
+                message.setChat(chat);
+                return messageHandlerService.processInputMessage(BotState.START, message) ;
+            }
         }
 
         if (data.equals(BotState.APPLICATION_HEALTH.name())){
