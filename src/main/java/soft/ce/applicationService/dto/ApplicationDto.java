@@ -23,9 +23,9 @@ public class ApplicationDto {
     private UserDto user;
 
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
-    public LocalDateTime applicationTime;
+    private LocalDateTime createdAt;
 
-//    public String getApplicationTime() {
-//        return createdAt.format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"));
-//    }
+    public String getApplicationTime() {
+        return createdAt.format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"));
+    }
 }

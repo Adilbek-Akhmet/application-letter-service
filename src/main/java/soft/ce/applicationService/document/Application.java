@@ -1,5 +1,6 @@
 package soft.ce.applicationService.document;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -31,6 +32,7 @@ public class Application {
 
     private UserDto user;
 
+    @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private LocalDateTime createdAt;
 
     public Application(String applicationText, String applicationType, UserDto user) {
