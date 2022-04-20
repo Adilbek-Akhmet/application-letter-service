@@ -3,19 +3,15 @@ package soft.ce.telegram.handlers.impl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.boot.configurationprocessor.json.JSONException;
-import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import org.telegram.telegrambots.meta.api.methods.GetFile;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.ApiResponse;
 import org.telegram.telegrambots.meta.api.objects.File;
 import org.telegram.telegrambots.meta.api.objects.Message;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import soft.ce.applicationService.dto.ApplicationDto;
 import soft.ce.applicationService.service.ApplicationService;
 import soft.ce.telegram.cache.DataCache;
@@ -24,9 +20,6 @@ import soft.ce.telegram.dto.BotState;
 import soft.ce.telegram.handlers.InputMessageHandler;
 import soft.ce.telegram.services.ReplyMessageService;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.MessageFormat;
@@ -77,7 +70,6 @@ public class ConfirmationFileHandler implements InputMessageHandler {
 
         applicationService.save(application);
         log.info("Application saved with data: {}", application);
-
 
         userDataCache.setUserCurrentBotState(userId, BotState.FINISH);
 

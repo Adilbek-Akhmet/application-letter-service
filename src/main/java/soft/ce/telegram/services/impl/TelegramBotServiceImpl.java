@@ -62,6 +62,12 @@ public class TelegramBotServiceImpl implements TelegramBotService {
             botState = userDataCache.getUserCurrentBotState(userId);
         }
         userDataCache.setUserCurrentBotState(userId, botState);
+
+        if (botState.equals(BotState.CONFIRMATION_FILE)) {
+            if (!message.hasDocument()) {
+                return
+            }
+        }
         log.info("Bot State: {}", botState);
         replyMessage = messageHandlerService.processInputMessage(botState, message);
         return replyMessage;
