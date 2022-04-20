@@ -72,17 +72,21 @@ public class TelegramBotServiceImpl implements TelegramBotService {
     private BotApiMethod<?> processCallbackQuery(Long userId, Long chatId, String data) {
         BotApiMethod<?> callBackAnswer = null;
 
+        log.info("1");
         UserDto user = userDataCache.getUser(userId);
+        log.info("2");
         if (user != null) {
+            log.info("3");
             if (user.getFullName() == null) {
                 Message message = new Message();
                 Chat chat = new Chat();
                 chat.setId(chatId);
                 message.setChat(chat);
+                log.info("4");
                 return messageHandlerService.processInputMessage(BotState.START, message) ;
             }
         }
-
+        log.info("5");
         if (data.equals(BotState.APPLICATION_HEALTH.name())){
             userDataCache.setUserCurrentBotState(userId, BotState.APPLICATION_HEALTH);
             callBackAnswer = replyMessageService.getReplyMessage(chatId, "reply.writeApplication");
