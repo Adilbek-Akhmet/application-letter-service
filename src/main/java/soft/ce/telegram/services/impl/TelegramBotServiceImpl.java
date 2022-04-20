@@ -30,14 +30,12 @@ public class TelegramBotServiceImpl implements TelegramBotService {
 
         if (update.hasCallbackQuery()) {
             CallbackQuery callbackQuery = update.getCallbackQuery();
-            log.info("CALLBACK {}", callbackQuery.getMessage());
             log.info("New callbackQuery from User: {}, userId: {}, with data: {}", update.getCallbackQuery().getFrom().getUserName(),
                     callbackQuery.getFrom().getId(), update.getCallbackQuery().getData());
             return processCallbackQuery(callbackQuery);
         }
 
         if (update.hasMessage()) {
-            log.info("MESSAGE");
             Message message = update.getMessage();
             if (message.hasText() || message.hasDocument()) {
                 log.info("New message from User: {}, chatId: {}, with text: {}",
