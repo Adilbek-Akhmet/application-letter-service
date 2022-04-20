@@ -51,18 +51,18 @@ public class AuthorizationHandler implements InputMessageHandler {
         if (botState.equals(BotState.RECORD_USERNAME)) {
             user.setFullName(userAnswer);
             log.info("RECORDED fullName");
+            userDataCache.setUser(userId, user);
             userDataCache.setUserCurrentBotState(userId, BotState.RECORD_GROUP_NAME);
             return replyMessageService.getReplyMessage(message.getChatId(), "reply.groupName");
         }
 
         if (botState.equals(BotState.RECORD_GROUP_NAME)) {
             user.setGroupName(userAnswer);
+            userDataCache.setUser(userId, user);
             replyToUser = replyMessageService.getReplyMessage(chatId, "reply.pickComplaintType");
             replyToUser.setReplyMarkup(Buttons.getComplaintTypePickButtons());
             userDataCache.setUserCurrentBotState(userId, BotState.APPLICATION);
         }
-
-        userDataCache.setUser(userId, user);
 
         return replyToUser;
     }
