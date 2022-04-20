@@ -20,7 +20,7 @@ public class ApplicationDto {
     private ApplicationStatus applicationStatus;
     private String confirmationFilePath;
     private UserDto user;
-    private LocalDateTime createdAt;
+    public LocalDateTime createdAt;
 
     public String getApplicationTime() {
         return createdAt.format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"));
