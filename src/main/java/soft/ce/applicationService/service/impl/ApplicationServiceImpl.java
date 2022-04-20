@@ -7,6 +7,7 @@ import soft.ce.applicationService.repository.ApplicationRepository;
 import soft.ce.applicationService.service.ApplicationService;
 import soft.ce.applicationService.utility.ApplicationMapper;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -20,6 +21,7 @@ public class ApplicationServiceImpl implements ApplicationService {
     public List<ApplicationDto> findAll() {
         return applicationRepository.findAll().stream()
                 .map(ApplicationMapper::toDto)
+                .sorted(Comparator.comparing(ApplicationDto::getApplicationTime).reversed())
                 .toList();
     }
 
