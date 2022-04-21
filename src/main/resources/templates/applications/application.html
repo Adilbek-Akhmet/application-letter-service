@@ -35,7 +35,7 @@
     <div class="form-group">
         <hr>
         <label><b>Application Text</b></label>
-        <span th:text="${applicationDto.getApplicationText()}"></span>
+        <p th:text="${applicationDto.getApplicationText()}"></p>
         <hr>
     </div>
     <button type="submit" th:some-field="${downloadUrl}" onclick="rowClicked(this.getAttribute('some-field'))" class="btn btn-dark">Download Confirmation File</button>
