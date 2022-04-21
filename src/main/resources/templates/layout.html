@@ -54,9 +54,6 @@
             <li sec:authorize="hasAnyAuthority('ADMIN')" class="nav-item active">
                 <a class="nav-link" href="#" th:href="@{/teachers}">Teachers <span class="sr-only">(current)</span></a>
             </li>
-            <li sec:authorize="hasAnyAuthority('ADMIN')" class="nav-item active">
-                <a class="nav-link" href="#" th:href="@{/students}">Students <span class="sr-only">(current)</span></a>
-            </li>
         </ul>
         <div sec:authorize="isAuthenticated()" class="navbar-text px-2" sec:authentication="name"></div>
         <form sec:authorize="isAuthenticated()" class="form-inline my-2 my-lg-0" th:action="@{/logout}" th:method="post">
