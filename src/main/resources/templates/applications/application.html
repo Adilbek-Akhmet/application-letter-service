@@ -27,8 +27,8 @@
     </div>
     <hr>
     <div class="form-group">
-        <span th:text="${'Full Name: ' + applicationDto.getUser() != null ? applicationDto.getUser().getFullName(): ''}"></span><br>
-        <span th:text="${'Group: ' + applicationDto.getUser() != null ? applicationDto.getUser().getGroupName()(): ''}"></span><br>
+        <span th:text="${'Full Name: ' + applicationDto.getUser().getFullName()}"></span><br>
+        <span th:text="${'Group: ' + applicationDto.getUser().getGroupName()}"></span><br>
         <span th:text="${'Time: ' + applicationDto.getApplicationTime()}"></span><br>
         <span th:text="${'Status: ' + (applicationDto.getApplicationStatus().name().equals('IN_PROGRESS') ? 'IN PROGESS' : applicationDto.getApplicationStatus())}"></span>
     </div>
