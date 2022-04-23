@@ -1,6 +1,5 @@
 package soft.application.telegram.handler;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
@@ -13,8 +12,8 @@ import org.telegram.telegrambots.meta.api.objects.File;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import soft.application.telegram.cache.DataCache;
 import soft.application.telegram.config.BotConfig;
-import soft.application.telegram.config.ReplyConfig;
 import soft.application.telegram.dto.BotState;
+import soft.application.telegram.service.MessageService;
 import soft.application.web.dto.ApplicationDto;
 import soft.application.web.dto.ApplicationStatus;
 import soft.application.web.service.ApplicationService;
@@ -26,9 +25,13 @@ import java.util.Objects;
 import static soft.application.telegram.dto.BotState.*;
 
 @Service
-public record InputMessageHandler(MessageSource messageSource, ReplyConfig replyConfig, BotConfig botConfig, ApplicationService applicationService) {
+public record InputMessageHandler(
+        BotConfig botConfig,
+        ApplicationService applicationService,
+        MessageService messageService
+) {
 
-    private static final String localeTage = "ru-RU";
+
     public SendMessage handle(BotState botState, Message message) {
         String userAnswer = message.getText();
         Long userId = message.getFrom().getId();
@@ -37,26 +40,26 @@ public record InputMessageHandler(MessageSource messageSource, ReplyConfig reply
         ApplicationDto application = DataCache.getApplication(userId);
         if (ASK_FULL_NAME.equals(botState)) {
             DataCache.setUserCurrentBotState(userId, ASK_GROUP_NAME);
-            return new SendMessage(chatId, replyConfig.getFullName());
+            return messageService.getReplyMessage(chatId, "reply.fullName");
         } else if (ASK_GROUP_NAME.equals(botState)) {
             application.setFullName(userAnswer);
             DataCache.setUserCurrentBotState(userId, ASK_PHONE_NUMBER);
-            return new SendMessage(chatId, replyConfig.getGroupName());
+            return messageService.getReplyMessage(chatId, "reply.groupName");
         } else if (ASK_PHONE_NUMBER.equals(botState)) {
             application.setGroupName(userAnswer);
             DataCache.setUserCurrentBotState(userId, WRITE_APPLICATION);
-            return new SendMessage(chatId, replyConfig.getPhoneNumber());
+            return messageService.getReplyMessage(chatId, "reply.phoneNumber");
         } else if (WRITE_APPLICATION.equals(botState)) {
             application.setPhoneNumber(userAnswer);
             DataCache.setUserCurrentBotState(userId, CONFIRM_BY_FILE);
-            return new SendMessage(chatId, replyConfig.getWriteApplication());
+            return messageService.getReplyMessage(chatId, "reply.writeApplication");
         } else if (CONFIRM_BY_FILE.equals(botState)) {
             application.setApplicationText(userAnswer);
             if (!message.hasDocument()) {
-                return new SendMessage(chatId, replyConfig.getConfirmByFile());
+                return messageService.getReplyMessage(chatId, "reply.confirmByFile");
             }
             DataCache.setUserCurrentBotState(userId, FINISH);
-            return new SendMessage(chatId, replyConfig.getConfirmByFile());
+            return messageService.getReplyMessage(chatId, "reply.confirmByFile");
         } else if (FINISH.equals(botState)) {
             String documentTelegramFileUrl = getDocumentTelegramFileUrl(message.getDocument().getFileId());
             application.setConfirmationFilePath(documentTelegramFileUrl);
@@ -64,7 +67,7 @@ public record InputMessageHandler(MessageSource messageSource, ReplyConfig reply
             application.setTelegramChatId(chatId);
             application.setCreatedAt(LocalDateTime.now());
             application.setApplicationStatus(ApplicationStatus.IN_PROGRESS);
-            return new SendMessage(chatId, replyConfig.getFinish());
+            return messageService.getReplyMessage(chatId, "reply.finish");
         } else {
             throw new IllegalStateException("No such bot state: " + botState);
         }
