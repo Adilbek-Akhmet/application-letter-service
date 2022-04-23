@@ -67,6 +67,9 @@ public record InputMessageHandler(
             application.setTelegramChatId(chatId);
             application.setCreatedAt(LocalDateTime.now());
             application.setApplicationStatus(ApplicationStatus.IN_PROGRESS);
+            applicationService.save(application);
+
+            DataCache.cleanDataByUserTelegramId(userId);
             return messageService.getReplyMessage(chatId, "reply.finish");
         } else {
             throw new IllegalStateException("No such bot state: " + botState);

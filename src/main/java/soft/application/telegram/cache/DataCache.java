@@ -22,11 +22,7 @@ public class DataCache {
     }
 
     public static void setUserCurrentBotState(Long userTelegramId, BotState botState) {
-        if (botState.equals(BotState.FINISH)) {
-            cleanDataByUserTelegramId(userTelegramId);
-        } else {
-            usersBotState.put(userTelegramId, botState);
-        }
+        usersBotState.put(userTelegramId, botState);
     }
 
     public static ApplicationDto getApplication(Long userTelegramId) {
