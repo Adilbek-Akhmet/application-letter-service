@@ -6,5 +6,6 @@ public enum BotState {
     ASK_PHONE_NUMBER,
     WRITE_APPLICATION,
     CONFIRM_BY_FILE,
-    FINISH
+    FINISH,
+    SEND_MESSAGE
 }

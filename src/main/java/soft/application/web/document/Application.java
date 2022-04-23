@@ -10,6 +10,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import soft.application.web.dto.ApplicationStatus;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Builder
@@ -29,6 +31,7 @@ public class Application {
     private String phoneNumber;
     private String telegramUsername;
     private String telegramChatId;
+    private List<Reply> replies;
 
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private LocalDateTime createdAt;

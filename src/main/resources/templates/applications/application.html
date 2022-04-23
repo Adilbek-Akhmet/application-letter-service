@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      layout:decorate="~{layout}">
 <head>
     <meta charset="utf-8"/>
     <title>Applications</title>
@@ -14,24 +16,31 @@
 <div layout:fragment="content">
     <h1>Application</h1>
     <hr>
-    <div class="row">
-        <form th:action="@{/applications/{id}/accepted(id=${applicationDto.getId()})}" th:method="post">
-            <button type="submit" class="btn btn-success ml-3">ACCEPTED</button>
-        </form>
-        <form th:action="@{/applications/{id}/rejected(id=${applicationDto.getId()})}" th:method="post">
-            <button type="submit" class="btn btn-danger ml-3">Rejected</button>
-        </form>
-        <form th:action="@{/applications/{id}/in-progress(id=${applicationDto.getId()})}" th:method="post">
-            <button type="submit" class="btn btn-warning ml-3">In Progress</button>
-        </form>
-    </div>
+    <form th:method="post" th:object="${reply}">
+        <div class="form-group">
+            <label for="text">Reply to application</label>
+            <textarea class="form-control" id="text" rows="3" th:field="*{text}"></textarea>
+        </div>
+        <div class="row">
+            <button type="submit" class="btn btn-success ml-3" th:formaction="'/applications/' + ${applicationDto.getId()} + '/accepted'">ACCEPTED</button>
+            <button type="submit" class="btn btn-danger ml-3" th:formaction="'/applications/' + ${applicationDto.getId()} + '/rejected'">Rejected</button>
+            <!--        <form th:action="@{/applications/{id}/in-progress(id=${applicationDto.getId()})}" th:method="post">-->
+            <!--            <button type="submit" class="btn btn-warning ml-3">In Progress</button>-->
+            <!--        </form>-->
+        </div>
+    </form>
     <hr>
-    <div class="form-group">
-        <span th:text="${'Full Name: ' + applicationDto.getFullName()}"></span><br>
-        <span th:text="${'Group: ' + applicationDto.getGroupName()}"></span><br>
-        <span th:text="${'Phone number: ' + applicationDto.getPhoneNumber()}"></span><br>
-        <span th:text="${'Time: ' + applicationDto.getApplicationTime()}"></span><br>
-        <span th:text="${'Status: ' + (applicationDto.getApplicationStatus().name().equals('IN_PROGRESS') ? 'IN PROGESS' : applicationDto.getApplicationStatus())}"></span>
+    <div class="form-group row">
+        <div class="col-6">
+            <span th:text="${'Full Name: ' + applicationDto.getFullName()}"></span><br>
+            <span th:text="${'Group: ' + applicationDto.getGroupName()}"></span><br>
+            <span th:text="${'Phone number: ' + applicationDto.getPhoneNumber()}"></span><br>
+        </div>
+        <div class="col-6">
+            <span th:text="${'Time: ' + applicationDto.getApplicationTime()}"></span><br>
+            <span th:text="${'Status: ' + (applicationDto.getApplicationStatus().name().equals('IN_PROGRESS') ? 'IN PROGESS' : applicationDto.getApplicationStatus())}"></span><br>
+            <span sec:authorize="hasAnyAuthority('ADMIN')" th:text="${'Telegram username: ' + applicationDto.getTelegramUsername()}"></span><br>
+        </div>
     </div>
     <div class="form-group">
         <hr>
@@ -40,6 +49,12 @@
         <hr>
     </div>
     <button type="submit" th:some-field="${downloadUrl}" onclick="rowClicked(this.getAttribute('some-field'))" class="btn btn-dark">Download Confirmation File</button>
+    <hr>
+    <label><b>Reply History</b></label>
+    <ul class="mb-2" th:each="replyHistory : ${replies}">
+        <li th:text="${replyHistory.getStatus()} + ' at ' + ${replyHistory.getCreatedAt()} + ':  ' + ${replyHistory.getText()}"></li>
+    </ul>
+    <div class="mb-5"></div>
 </div>
 </body>
 </html>

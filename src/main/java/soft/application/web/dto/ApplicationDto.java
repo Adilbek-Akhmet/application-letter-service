@@ -5,9 +5,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import soft.application.web.document.Reply;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Builder
@@ -23,11 +26,12 @@ public class ApplicationDto {
     private String phoneNumber;
     private String telegramUsername;
     private String telegramChatId;
+    private List<Reply> replies;
 
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private LocalDateTime createdAt;
 
     public String getApplicationTime() {
-        return createdAt.format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"));
+        return createdAt.format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm"));
     }
 }

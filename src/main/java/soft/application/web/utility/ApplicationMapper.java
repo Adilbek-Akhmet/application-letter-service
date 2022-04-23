@@ -18,6 +18,9 @@ public class ApplicationMapper {
                 .groupName(dto.getGroupName())
                 .phoneNumber(dto.getPhoneNumber())
                 .createdAt(dto.getCreatedAt())
+                .replies(dto.getReplies())
+                .telegramChatId(dto.getTelegramChatId())
+                .telegramUsername(dto.getTelegramUsername())
                 .build();
     }
 
@@ -31,6 +34,9 @@ public class ApplicationMapper {
                 .groupName(doc.getGroupName())
                 .phoneNumber(doc.getPhoneNumber())
                 .createdAt(doc.getCreatedAt())
+                .replies(doc.getReplies())
+                .telegramChatId(doc.getTelegramChatId())
+                .telegramUsername(doc.getTelegramUsername())
                 .build();
     }
 }

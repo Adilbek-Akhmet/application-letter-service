@@ -1,6 +1,5 @@
 package soft.application.telegram.handler;
 
-import org.springframework.context.MessageSource;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +19,6 @@ import soft.application.web.service.ApplicationService;
 
 import java.text.MessageFormat;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.Objects;
 
 import static soft.application.telegram.dto.BotState.*;
@@ -31,8 +29,6 @@ public record InputMessageHandler(
         ApplicationService applicationService,
         MessageService messageService
 ) {
-
-
     public SendMessage handle(BotState botState, Message message) {
         String userAnswer = message.getText();
         Long userId = message.getFrom().getId();
@@ -68,8 +64,8 @@ public record InputMessageHandler(
             }
             String documentTelegramFileUrl = getDocumentTelegramFileUrl(message.getDocument().getFileId());
             application.setConfirmationFilePath(documentTelegramFileUrl);
-            application.setTelegramUsername(message.getFrom().getUserName());
             application.setTelegramChatId(chatId);
+            application.setTelegramUsername(message.getFrom().getUserName());
             application.setCreatedAt(LocalDateTime.from(LocalDateTime.now()));
             application.setApplicationStatus(ApplicationStatus.IN_PROGRESS);
             applicationService.save(application);
