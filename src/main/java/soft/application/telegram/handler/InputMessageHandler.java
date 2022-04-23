@@ -1,6 +1,7 @@
 package soft.application.telegram.handler;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.MessageSource;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -25,8 +26,9 @@ import java.util.Objects;
 import static soft.application.telegram.dto.BotState.*;
 
 @Service
-public record InputMessageHandler(ReplyConfig replyConfig, BotConfig botConfig, ApplicationService applicationService) {
+public record InputMessageHandler(MessageSource messageSource, ReplyConfig replyConfig, BotConfig botConfig, ApplicationService applicationService) {
 
+    private static final String localeTage = "ru-RU";
     public SendMessage handle(BotState botState, Message message) {
         String userAnswer = message.getText();
         Long userId = message.getFrom().getId();
@@ -84,4 +86,8 @@ public record InputMessageHandler(ReplyConfig replyConfig, BotConfig botConfig, 
             throw new IllegalStateException("Telegram file exception");
         }
     }
+
+//    private String getMessage(String message) {
+//        return messageSource.getMessage(message, null, Loca);
+//    }
 }
