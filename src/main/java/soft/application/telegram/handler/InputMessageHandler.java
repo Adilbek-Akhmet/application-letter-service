@@ -51,16 +51,16 @@ public record InputMessageHandler(
             return messageService.getReplyMessage(chatId, "reply.phoneNumber");
         } else if (WRITE_APPLICATION.equals(botState)) {
             application.setPhoneNumber(userAnswer);
-            DataCache.setUserCurrentBotState(userId, CONFIRM_BY_FILE);
+            DataCache.setUserCurrentBotState(userId, RECORD_APPLICATION);
             return messageService.getReplyMessage(chatId, "reply.writeApplication");
         } else if (CONFIRM_BY_FILE.equals(botState)) {
             application.setApplicationText(userAnswer);
-            if (!message.hasDocument()) {
-                return messageService.getReplyMessage(chatId, "reply.confirmByFile");
-            }
             DataCache.setUserCurrentBotState(userId, FINISH);
             return messageService.getReplyMessage(chatId, "reply.confirmByFile");
         } else if (FINISH.equals(botState)) {
+            if (!message.hasDocument()) {
+                return messageService.getReplyMessage(chatId, "reply.confirmByFile");
+            }
             String documentTelegramFileUrl = getDocumentTelegramFileUrl(message.getDocument().getFileId());
             application.setConfirmationFilePath(documentTelegramFileUrl);
             application.setTelegramUsername(message.getFrom().getUserName());
