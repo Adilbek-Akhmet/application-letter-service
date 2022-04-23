@@ -17,7 +17,7 @@
         <tr>
             <th>Full Name</th>
             <th>Group</th>
-            <th>Application Type</th>
+            <th>Phone Number</th>
             <th>Time</th>
             <th>Status</th>
         </tr>
@@ -25,31 +25,25 @@
         <tbody>
         <tr th:each="applicationDto : ${applications}" class="table-warning" style="cursor: pointer" th:if="${applicationDto.getApplicationStatus().name().equals('IN_PROGRESS')}"
             th:some-field="${domain + '/applications/' + applicationDto.getId()}" onclick="rowClicked(this.getAttribute('some-field'))">
-            <td th:text="${applicationDto.getUser().getFullName()}"></td>
-            <td th:text="${applicationDto.getUser().getGroupName()}"></td>
-            <td th:if="${applicationDto.getApplicationType().equals('APPLICATION_PASS_EXAM')}">Admission to the exam</td>
-            <td th:if="${applicationDto.getApplicationType().equals('APPLICATION_HEALTH')}">Health</td>
-            <td th:if="${applicationDto.getApplicationType().equals('APPLICATION_OTHER')}">Other</td>
+            <td th:text="${applicationDto.getFullName()}"></td>
+            <td th:text="${applicationDto.getGroupName()}"></td>
+            <td th:text="${applicationDto.getPhoneNumber()}"></td>
             <td th:text="${applicationDto.getApplicationTime()}"></td>
             <td th:text="${(applicationDto.getApplicationStatus().name().equals('IN_PROGRESS') ? 'IN PROGESS' : applicationDto.getApplicationStatus())}"></td>
         </tr>
         <tr th:each="applicationDto : ${applications}" class="table-success" style="cursor: pointer" th:if="${applicationDto.getApplicationStatus().name().equals('ACCEPTED')}"
             th:some-field="${domain + '/applications/' + applicationDto.getId()}" onclick="rowClicked(this.getAttribute('some-field'))">
-            <td th:text="${applicationDto.getUser().getFullName()}"></td>
-            <td th:text="${applicationDto.getUser().getGroupName()}"></td>
-            <td th:if="${applicationDto.getApplicationType().equals('APPLICATION_PASS_EXAM')}">Admission to the exam</td>
-            <td th:if="${applicationDto.getApplicationType().equals('APPLICATION_HEALTH')}">Health</td>
-            <td th:if="${applicationDto.getApplicationType().equals('APPLICATION_OTHER')}">Other</td>
+            <td th:text="${applicationDto.getFullName()}"></td>
+            <td th:text="${applicationDto.getGroupName()}"></td>
+            <td th:text="${applicationDto.getPhoneNumber()}"></td>
             <td th:text="${applicationDto.getApplicationTime()}"></td>
             <td th:text="${(applicationDto.getApplicationStatus().name().equals('IN_PROGRESS') ? 'IN PROGESS' : applicationDto.getApplicationStatus())}"></td>
         </tr>
         <tr th:each="applicationDto : ${applications}" class="table-danger" style="cursor: pointer" th:if="${applicationDto.getApplicationStatus().name().equals('REJECTED')}"
             th:some-field="${domain + '/applications/' + applicationDto.getId()}" onclick="rowClicked(this.getAttribute('some-field'))">
-            <td th:text="${applicationDto.getUser().getFullName()}"></td>
-            <td th:text="${applicationDto.getUser().getGroupName()}"></td>
-            <td th:if="${applicationDto.getApplicationType().equals('APPLICATION_PASS_EXAM')}">Admission to the exam</td>
-            <td th:if="${applicationDto.getApplicationType().equals('APPLICATION_HEALTH')}">Health</td>
-            <td th:if="${applicationDto.getApplicationType().equals('APPLICATION_OTHER')}">Other</td>
+            <td th:text="${applicationDto.getFullName()}"></td>
+            <td th:text="${applicationDto.getGroupName()}"></td>
+            <td th:text="${applicationDto.getPhoneNumber()}"></td>
             <td th:text="${applicationDto.getApplicationTime()}"></td>
             <td th:text="${(applicationDto.getApplicationStatus().name().equals('IN_PROGRESS') ? 'IN PROGESS' : applicationDto.getApplicationStatus())}"></td>
         </tr>
