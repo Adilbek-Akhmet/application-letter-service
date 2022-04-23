@@ -43,18 +43,22 @@ public record InputMessageHandler(
             return messageService.getReplyMessage(chatId, "reply.fullName");
         } else if (ASK_GROUP_NAME.equals(botState)) {
             application.setFullName(userAnswer);
+            DataCache.setApplication(userId, application);
             DataCache.setUserCurrentBotState(userId, ASK_PHONE_NUMBER);
             return messageService.getReplyMessage(chatId, "reply.groupName");
         } else if (ASK_PHONE_NUMBER.equals(botState)) {
             application.setGroupName(userAnswer);
+            DataCache.setApplication(userId, application);
             DataCache.setUserCurrentBotState(userId, WRITE_APPLICATION);
             return messageService.getReplyMessage(chatId, "reply.phoneNumber");
         } else if (WRITE_APPLICATION.equals(botState)) {
             application.setPhoneNumber(userAnswer);
+            DataCache.setApplication(userId, application);
             DataCache.setUserCurrentBotState(userId, CONFIRM_BY_FILE);
             return messageService.getReplyMessage(chatId, "reply.writeApplication");
         } else if (CONFIRM_BY_FILE.equals(botState)) {
             application.setApplicationText(userAnswer);
+            DataCache.setApplication(userId, application);
             DataCache.setUserCurrentBotState(userId, FINISH);
             return messageService.getReplyMessage(chatId, "reply.confirmByFile");
         } else if (FINISH.equals(botState)) {

@@ -33,6 +33,10 @@ public class DataCache {
         return applicationDto;
     }
 
+    public static ApplicationDto setApplication(Long userTelegramId, ApplicationDto applicationDto) {
+        return applicationsData.put(userTelegramId, applicationDto);
+    }
+
     public static void cleanDataByUserTelegramId(Long userTelegramId) {
         applicationsData.remove(userTelegramId);
         usersBotState.remove(userTelegramId);
