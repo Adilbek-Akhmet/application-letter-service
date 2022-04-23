@@ -20,6 +20,7 @@ import soft.application.web.service.ApplicationService;
 
 import java.text.MessageFormat;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Objects;
 
 import static soft.application.telegram.dto.BotState.*;
@@ -69,7 +70,7 @@ public record InputMessageHandler(
             application.setConfirmationFilePath(documentTelegramFileUrl);
             application.setTelegramUsername(message.getFrom().getUserName());
             application.setTelegramChatId(chatId);
-            application.setCreatedAt(LocalDateTime.now());
+            application.setCreatedAt(LocalDateTime.from(LocalDateTime.now().atZone(ZoneId.of("Asia/Almaty"))));
             application.setApplicationStatus(ApplicationStatus.IN_PROGRESS);
             applicationService.save(application);
 
