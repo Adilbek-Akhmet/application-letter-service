@@ -8,9 +8,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import java.util.Locale;
 
 @Service
-@RequiredArgsConstructor
 public record MessageService(MessageSource messageSource) {
-
     private static final String LOCALE_TAG = "ru-RU";
 
     public SendMessage getReplyMessage(String chatId, String replyMessage) {
