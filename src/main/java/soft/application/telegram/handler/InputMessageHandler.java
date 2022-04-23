@@ -70,7 +70,7 @@ public record InputMessageHandler(
             application.setConfirmationFilePath(documentTelegramFileUrl);
             application.setTelegramUsername(message.getFrom().getUserName());
             application.setTelegramChatId(chatId);
-            application.setCreatedAt(LocalDateTime.from(LocalDateTime.now().atZone(ZoneId.of("Asia/Almaty"))));
+            application.setCreatedAt(LocalDateTime.from(LocalDateTime.now()));
             application.setApplicationStatus(ApplicationStatus.IN_PROGRESS);
             applicationService.save(application);
 
