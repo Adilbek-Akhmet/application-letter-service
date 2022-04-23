@@ -51,7 +51,7 @@ public record InputMessageHandler(
             return messageService.getReplyMessage(chatId, "reply.phoneNumber");
         } else if (WRITE_APPLICATION.equals(botState)) {
             application.setPhoneNumber(userAnswer);
-            DataCache.setUserCurrentBotState(userId, RECORD_APPLICATION);
+            DataCache.setUserCurrentBotState(userId, CONFIRM_BY_FILE);
             return messageService.getReplyMessage(chatId, "reply.writeApplication");
         } else if (CONFIRM_BY_FILE.equals(botState)) {
             application.setApplicationText(userAnswer);
