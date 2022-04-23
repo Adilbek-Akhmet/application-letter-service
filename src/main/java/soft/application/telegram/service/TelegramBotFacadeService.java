@@ -27,7 +27,7 @@ public class TelegramBotFacadeService extends TelegramWebhookBot {
 
     @Override
     public BotApiMethod<?> onWebhookUpdateReceived(Update update) {
-        return onWebhookUpdateReceived(update);
+        return telegramBotService.handleUpdate(update);
     }
 
     @Override
