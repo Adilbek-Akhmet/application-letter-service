@@ -2,6 +2,8 @@ package soft.application.web.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import soft.application.web.document.Reply;
 import soft.application.web.dto.ApplicationDto;
@@ -55,6 +57,11 @@ public class ApplicationServiceImpl implements ApplicationService {
             reply.setStatus(status);
             reply.setTime(LocalDateTime.now());
             reply.setText(reply.getText());
+            String username = SecurityContextHolder.getContext().getAuthentication().getName();
+            System.out.println(username + "ddddddddddddddddd");
+            if (StringUtils.isNotBlank(username)) {
+                reply.setAuthor(username);
+            }
             replies.add(reply);
             applicationDto.setReplies(replies);
         }

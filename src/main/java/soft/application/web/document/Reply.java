@@ -15,6 +15,7 @@ import java.time.format.DateTimeFormatter;
 public class Reply {
     private String text;
     private ApplicationStatus status;
+    private String author;
 
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm")
     private LocalDateTime time;

@@ -56,6 +56,9 @@
             </li>
         </ul>
         <div sec:authorize="isAuthenticated()" class="navbar-text px-2" sec:authentication="name"></div>
+        <form sec:authorize="hasAnyAuthority('TEACHER')" class="form-inline my-2 my-lg-0 mr-1" th:action="@{/teachers/update}" th:method="get">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Change Password</button>
+        </form>
         <form sec:authorize="isAuthenticated()" class="form-inline my-2 my-lg-0" th:action="@{/logout}" th:method="post">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Log out</button>
         </form>

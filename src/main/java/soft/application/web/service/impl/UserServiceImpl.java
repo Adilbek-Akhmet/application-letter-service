@@ -69,7 +69,7 @@ public class UserServiceImpl implements UserService {
         UserDto userDto = findById(id);
 
         if (StringUtils.isNotBlank(updatedUserDto.getPassword())) {
-            userDto.setPassword(updatedUserDto.getPassword());
+            userDto.setPassword(passwordEncoder.encode(updatedUserDto.getPassword()));
         }
 
         userRepository.save(UserMapper.toEntity(userDto));

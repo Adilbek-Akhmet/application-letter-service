@@ -1,6 +1,7 @@
 package soft.application.web.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -58,9 +59,8 @@ public class ApplicationController {
     public String accepted(@PathVariable String id, RedirectAttributes redirectAttributes,
                            @ModelAttribute("reply") Reply reply) {
         ApplicationDto applicationDto = applicationService.saveReply(id, ApplicationStatus.ACCEPTED, reply);
-        String url = "https://api.telegram.org/bot" + botConfig.getBotToken() + "/sendMessage?chat_id=" + applicationDto.getTelegramChatId() + "&text=" + reply.getText();
-        String url2 = "https://api.telegram.org/bot{botToken}/sendMessage?chat_id={chat_id}&text={notification_text}";
-        restTemplate.getForObject(url2, Void.class, botConfig.getBotToken(), applicationDto.getTelegramChatId(), reply.getText());
+        String url = "https://api.telegram.org/bot{botToken}/sendMessage?chat_id={chat_id}&text={notification_text}";
+        restTemplate.getForObject(url, Void.class, botConfig.getBotToken(), applicationDto.getTelegramChatId(), reply.getText());
         redirectAttributes.addFlashAttribute(SUCCESS, "Application status successfully changed to ACCEPTED");
         return REDIRECT_APPLICATION + id;
     }

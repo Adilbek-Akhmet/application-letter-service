@@ -52,7 +52,7 @@
     <hr>
     <label><b>Reply History</b></label>
     <ul class="mb-2" th:each="replyHistory : ${replies}">
-        <li th:text="${replyHistory.getStatus()} + ' at ' + ${replyHistory.getCreatedAt()} + ':  ' + ${replyHistory.getText()}"></li>
+        <li th:text="${replyHistory.getStatus()} + ' by ' + ${replyHistory.getAuthor()} + ' at ' + ${replyHistory.getCreatedAt()} + ':  ' + ${replyHistory.getText()}"></li>
     </ul>
     <div class="mb-5"></div>
 </div>
