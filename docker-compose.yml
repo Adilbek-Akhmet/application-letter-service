@@ -1,7 +1,18 @@
 version: '3.1'
 
 services:
-
+  application-letter-service:
+    image: adilbekakhmethub/application:v1
+    restart: always
+    ports:
+      - "7891:7891"
+    environment:
+      - SECURITY_ADMIN_USERNAME=Adilbek
+      - SECURITY_ADMIN_PASSWORD=123
+      - SPRING_DATA_MONGODB_URI=mongodb://root:example@mongo:27017/application-letter-service?authSource=admin
+      - TELEGRAM_BOT_WEBHOOKPATH=https://5482-95-82-76-248.ngrok.io
+      - TELEGRAM_BOT_BOTUSERNAME=@astana_it_bot
+      - TELEGRAM_BOT_BOTTOKEN=5096504083:AAGDOhNi0nkScOAL2mxBMVHGix3HwFfiuNQ
   mongo:
     image: mongo
     restart: always
@@ -22,3 +33,6 @@ services:
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
       ME_CONFIG_MONGODB_ADMINPASSWORD: example
       ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/
+
+  #https://api.telegram.org/bot5096504083:AAGDOhNi0nkScOAL2mxBMVHGix3HwFfiuNQ/setWebhook?url=https://application-letter-service.herokuapp.com/
+  #https://api.telegram.org/bot5096504083:AAGDOhNi0nkScOAL2mxBMVHGix3HwFfiuNQ/getWebhookInfo

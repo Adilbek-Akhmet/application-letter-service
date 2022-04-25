@@ -69,8 +69,9 @@ public class ApplicationController {
     @PostMapping("/{id}/rejected")
     public String rejected(@PathVariable String id, RedirectAttributes redirectAttributes,
                            @ModelAttribute("reply") Reply reply) {
-        applicationService.saveReply(id, ApplicationStatus.REJECTED, reply);
-
+        ApplicationDto applicationDto = applicationService.saveReply(id, ApplicationStatus.REJECTED, reply);
+        String url = "https://api.telegram.org/bot{botToken}/sendMessage?chat_id={chat_id}&text={notification_text}";
+        restTemplate.getForObject(url, Void.class, botConfig.getBotToken(), applicationDto.getTelegramChatId(), reply.getText());
         redirectAttributes.addFlashAttribute(SUCCESS, "Application status successfully changed to REJECTED");
         return REDIRECT_APPLICATION + id;
     }
