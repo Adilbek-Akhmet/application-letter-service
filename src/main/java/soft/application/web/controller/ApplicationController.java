@@ -1,6 +1,7 @@
 package soft.application.web.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,7 +15,9 @@ import soft.application.web.dto.ApplicationDto;
 import soft.application.web.dto.ApplicationStatus;
 import soft.application.web.service.ApplicationService;
 
+import java.text.ParseException;
 import java.util.Comparator;
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -55,13 +58,29 @@ public class ApplicationController {
     }
 
     @LogAround(logArgs = true)
-    @PostMapping("/{id}/accepted")
-    public String accepted(@PathVariable String id, RedirectAttributes redirectAttributes,
+    @PostMapping("/{id}/send")
+    public String send(@PathVariable String id, RedirectAttributes redirectAttributes,
                            @ModelAttribute("reply") Reply reply) {
-        ApplicationDto applicationDto = applicationService.saveReply(id, ApplicationStatus.ACCEPTED, reply);
         String url = "https://api.telegram.org/bot{botToken}/sendMessage?chat_id={chat_id}&text={notification_text}";
-        restTemplate.getForObject(url, Void.class, botConfig.getBotToken(), applicationDto.getTelegramChatId(), reply.getText());
-        redirectAttributes.addFlashAttribute(SUCCESS, "Application status successfully changed to ACCEPTED");
+        String text = Optional.ofNullable(reply.getText())
+                .orElse("");
+
+        if (reply.getType().equals("accept")) {
+            ApplicationDto applicationDto = applicationService.saveReply(id, ApplicationStatus.ACCEPTED, reply);
+            String dateText = "";
+            if (StringUtils.isNotBlank(reply.getDeadline())) {
+                dateText = "Срок до " + reply.getDeadlineFormat() + ". ";
+            }
+            String replyFullText = "Заявление одобрено. " + dateText + text;
+            restTemplate.getForObject(url, Void.class, botConfig.getBotToken(), applicationDto.getTelegramChatId(), replyFullText);
+            redirectAttributes.addFlashAttribute(SUCCESS, "Application status successfully changed to ACCEPTED");
+        } else {
+            ApplicationDto applicationDto = applicationService.saveReply(id, ApplicationStatus.REJECTED, reply);
+            String replyFullText = "Заявление отказано. " + text;
+            restTemplate.getForObject(url, Void.class, botConfig.getBotToken(), applicationDto.getTelegramChatId(), replyFullText);
+            redirectAttributes.addFlashAttribute(SUCCESS, "Application status successfully changed to REJECTED");
+        }
+
         return REDIRECT_APPLICATION + id;
     }
 
