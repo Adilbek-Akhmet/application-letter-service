@@ -64,20 +64,23 @@ public class ApplicationController {
         String url = "https://api.telegram.org/bot{botToken}/sendMessage?chat_id={chat_id}&text={notification_text}";
         String text = Optional.ofNullable(reply.getText())
                 .orElse("");
+        ApplicationDto applicationDto = applicationService.findById(id);
 
         if (reply.getType().equals("accept")) {
-            ApplicationDto applicationDto = applicationService.saveReply(id, ApplicationStatus.ACCEPTED, reply);
             String dateText = "";
             if (StringUtils.isNotBlank(reply.getDeadline())) {
                 dateText = "Срок до " + reply.getDeadlineFormat() + ". ";
             }
             String replyFullText = "Заявление одобрено. " + dateText + text;
             restTemplate.getForObject(url, Void.class, botConfig.getBotToken(), applicationDto.getTelegramChatId(), replyFullText);
+            reply.setText(replyFullText);
+            applicationService.saveReply(id, ApplicationStatus.ACCEPTED, reply);
             redirectAttributes.addFlashAttribute(SUCCESS, "Application status successfully changed to ACCEPTED");
         } else {
-            ApplicationDto applicationDto = applicationService.saveReply(id, ApplicationStatus.REJECTED, reply);
             String replyFullText = "Заявление отказано. " + text;
             restTemplate.getForObject(url, Void.class, botConfig.getBotToken(), applicationDto.getTelegramChatId(), replyFullText);
+            reply.setText(replyFullText);
+            applicationService.saveReply(id, ApplicationStatus.REJECTED, reply);
             redirectAttributes.addFlashAttribute(SUCCESS, "Application status successfully changed to REJECTED");
         }
 
