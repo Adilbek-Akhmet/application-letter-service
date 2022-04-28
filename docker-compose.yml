@@ -34,5 +34,5 @@ services:
       ME_CONFIG_MONGODB_ADMINPASSWORD: example
       ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/
 
-  #https://api.telegram.org/bot5096504083:AAGDOhNi0nkScOAL2mxBMVHGix3HwFfiuNQ/setWebhook?url=https://application-letter-service.herokuapp.com/
+#  https://api.telegram.org/bot5096504083:AAGDOhNi0nkScOAL2mxBMVHGix3HwFfiuNQ/setWebhook?url=https://application-letter-service.herokuapp.com/
   #https://api.telegram.org/bot5096504083:AAGDOhNi0nkScOAL2mxBMVHGix3HwFfiuNQ/getWebhookInfo
