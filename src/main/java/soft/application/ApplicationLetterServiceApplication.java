@@ -24,17 +24,18 @@ public class ApplicationLetterServiceApplication {
     }
 
     private final BotConfig botConfig;
+    private final RestTemplate restTemplate;
 
     @Autowired
-    public ApplicationLetterServiceApplication(BotConfig botConfig) {
+    public ApplicationLetterServiceApplication(BotConfig botConfig, RestTemplate restTemplate) {
         this.botConfig = botConfig;
+        this.restTemplate = restTemplate;
     }
 
     @Scheduled(fixedDelay = 300000)
     public void pingMe() {
         log.info("Ping to {}", botConfig.getWebHookPath());
-        RestTemplate restTemplate = new RestTemplate();
-        restTemplate.getForObject(botConfig.getWebHookPath(), Object.class);
+        restTemplate.getForObject(botConfig.getWebHookPath(), Void.class);
         log.info("Ping was successful {}", botConfig.getWebHookPath());
     }
 }
